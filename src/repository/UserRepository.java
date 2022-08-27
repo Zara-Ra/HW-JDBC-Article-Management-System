@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class UserRepository {
     public User userSignUp(String username, String nationalCode, Date birthday) throws SQLException {
-        String sql = "INSERT INTO user (username,nationalCode,birthday,password) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO usertable (username,nationalcode,birthday,password) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, nationalCode);
@@ -16,7 +16,7 @@ public class UserRepository {
         preparedStatement.setString(4, nationalCode);
         preparedStatement.executeUpdate();
 
-        String sqlForID = "SELECT ID FROM usertable WHERE username = ? AND nationalCode = ?";
+        String sqlForID = "SELECT id FROM usertable WHERE username = ? AND nationalcode = ?";
         PreparedStatement prepared = ApplicationConstant.getConnection().prepareStatement(sqlForID);
         prepared.setString(1, username);
         prepared.setString(2, nationalCode);

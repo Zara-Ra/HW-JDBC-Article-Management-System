@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
     private static UserRepository userRepository = new UserRepository();
     private static ArticleRepository articleRepository = new ArticleRepository();
+    private static User user;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException {
@@ -23,8 +24,10 @@ public class Main {
         String nationalCode = scanner.next();
         System.out.println("Enter Birthday in this format 2015-03-31: ");
         Date birhtday = Date.valueOf(scanner.next());
-        if (userRepository.userSignUp(username, nationalCode, birhtday) != null) {
+        user = userRepository.userSignUp(username, nationalCode, birhtday);
+        if ( user != null) {
             System.out.println("Sign up complete");
+            System.out.println("Dear "+user.getUsername()+ " Your Password is your National Code, You can change it in the first menu");
             return true;
         }
         System.out.println("This Username already exists");
@@ -36,14 +39,16 @@ public class Main {
         String username = scanner.next();
         System.out.println("Enter Password: ");
         String password = scanner.next();
-        if (userRepository.userSignIn(username, password) != null) {
+        user = userRepository.userSignIn(username, password);
+        if ( user != null) {
             System.out.println("You have been successfully signed in!");
             return true;
         }
         System.out.println("...Sign in Failed...");
+        System.out.println("Your Username or Password is incorrect");
         return false;
-            /*System.out.println("Your Username or Password is incorrect");
-            System.out.println("Press 1 to Try Again");
+
+            /*System.out.println("Press 1 to Try Again");
             System.out.println("Press 2 to Sign up for a new account");
             System.out.println("Press q to Exit");
             */
