@@ -7,6 +7,26 @@ import java.sql.*;
 
 
 public class UserRepository {
+    public boolean checkPassword(int id,String password) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM usertable WHERE id = ? AND password = ?";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        preparedStatement.setString(2, password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        if(resultSet.getInt(1) == 1)
+            return true;
+        return false;
+    }
+    public boolean changePassword(int id,String password) throws SQLException {
+        String sql = "UPDATE usertable SET password = ? WHERE id = ? ";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(2, id);
+        preparedStatement.setString(1, password);
+        if( preparedStatement.executeUpdate() == 1)
+            return true;
+        return false;
+    }
     public User userSignUp(String username, String nationalCode, Date birthday) throws SQLException {
         String sql = "INSERT INTO usertable (username,nationalcode,birthday,password) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);

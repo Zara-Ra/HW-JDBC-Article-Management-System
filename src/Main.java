@@ -14,9 +14,28 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         //signIn();
-        signUp();
+        //signUp();
+
+        changePassword();
     }
 
+    public static boolean changePassword() throws SQLException {
+        System.out.println("Enter your old Password...");
+        String oldPass = scanner.next();
+        if(userRepository.checkPassword(user.getId(),oldPass)) {
+            System.out.println("Enter your new Password...");
+            String newPass = scanner.next();
+            if(userRepository.changePassword(user.getId(),newPass)) {
+                user.setPassword(newPass);
+                System.out.println("Password changed successfully!");
+                return true;
+            }
+            System.out.println("An error occurred, please try later");
+            return false;
+        }
+        System.out.println("Wrong Password");
+        return false;
+    }
     public static boolean signUp() throws SQLException {
         System.out.println("Enter Username: ");
         String username = scanner.next();
