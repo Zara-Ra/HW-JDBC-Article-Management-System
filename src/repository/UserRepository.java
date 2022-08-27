@@ -3,10 +3,7 @@ package repository;
 import entity.User;
 import util.ApplicationConstant;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class UserRepository {
@@ -19,7 +16,7 @@ public class UserRepository {
         preparedStatement.setString(4, nationalCode);
         preparedStatement.executeUpdate();
 
-        String sqlForID = "SELECT ID FROM user WHERE username = ? AND nationalCode = ?";
+        String sqlForID = "SELECT ID FROM usertable WHERE username = ? AND nationalCode = ?";
         PreparedStatement prepared = ApplicationConstant.getConnection().prepareStatement(sqlForID);
         prepared.setString(1, username);
         prepared.setString(2, nationalCode);
@@ -33,7 +30,7 @@ public class UserRepository {
 
     public User userSignIn(String username, String password) throws SQLException {
 
-        String sql = "SELECT * From user WHERE username = ? AND password = ?";
+        String sql = "SELECT * From usertable WHERE username = ? AND password = ? ";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
@@ -43,5 +40,15 @@ public class UserRepository {
             return newUser;
         }
         return null;
+    }
+    public void test() throws SQLException {
+        String readQuery = "SELECT *  FROM usertable";
+        PreparedStatement statement = ApplicationConstant.getConnection().prepareStatement(readQuery);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int person_id = resultSet.getInt(1);
+            System.out.println(person_id);
+        }
+
     }
 }

@@ -1,5 +1,4 @@
 package util;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,8 +9,7 @@ public class DBHelper {
     private static final String PASS = "zara12";
 
     private Connection connection;
-
-    public Connection getConnection() {
+    public  Connection getConnection() {
 
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
