@@ -1,6 +1,7 @@
 package repository;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class ArticleRepository {
     public void seeAllArticles() {

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBHelper {
-    private static final String DB_URL = "jdbc:postgresql://localhost/Maktab";
+    private static final String DB_URL = "jdbc:postgresql://localhost/HW5";
     private static final String USER = "postgres";
     private static final String PASS = "zara12";
 
