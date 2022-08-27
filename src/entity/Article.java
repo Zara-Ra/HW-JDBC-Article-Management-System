@@ -69,4 +69,17 @@ public class Article {
     public void setPublished(boolean published) {
         isPublished = published;
     }
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", breif='" + breif + '\'' +
+                ", content='" + content + '\'' +
+                ", createDate=" + createDate +
+                ", isPublished=" + isPublished +
+                ", userID=" + userID +
+                '}';
+    }
+
 }
