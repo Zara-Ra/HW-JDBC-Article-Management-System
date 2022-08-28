@@ -99,6 +99,12 @@ public class Main {
                 firstMenu();
                 break;
             case 6:
+                System.out.println("Are you sure you want to Exit? yes/no");
+                if (scanner.nextLine().equals("no") )
+                    firstMenu();
+                else
+                    System.out.println("Hope to see you soon ;)");
+
                 break;
         }
     }
@@ -140,7 +146,7 @@ public class Main {
         int articleID = Integer.parseInt(scanner.nextLine());
         Article article = articleRepository.seeArticleByID(articleID);
         if (article != null && article.getUserID() == user.getId()) {
-            String name = userRepository.FindUserByID(article.getUserID());
+            String name = userRepository.findUserByID(article.getUserID());
             System.out.println(article.getId() + " " + article.getTitle());
             System.out.println("  Author: " + name + " Date: " + article.getCreateDate());
             System.out.println("  Summery: " + article.getBrief());
@@ -206,7 +212,7 @@ public class Main {
         int ID = Integer.parseInt(scanner.nextLine());
         Article article = articleRepository.seeArticleByID(ID);
         if (article != null && article.isPublished()) {
-            String name = userRepository.FindUserByID(article.getUserID());
+            String name = userRepository.findUserByID(article.getUserID());
             System.out.println(article.getId() + " " + article.getTitle());
             System.out.println("  Author: " + name + " Date: " + article.getCreateDate());
             System.out.println("  Summery: " + article.getBrief());

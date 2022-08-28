@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 
 public class UserRepository {
-    public String FindUserByID(int ID) throws SQLException {
+    public String findUserByID(int ID) throws SQLException {
         String sql = "SELECT username FROM usertable WHERE id = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1, ID);
