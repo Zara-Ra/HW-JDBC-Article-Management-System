@@ -17,18 +17,22 @@ public class Main {
     private static User user;
 
     public static void main(String[] args) throws SQLException {
-        System.out.println("\nWelcome to Article Viewer");
+        System.out.println("\n******* Welcome to Article Viewer *******");
         firstMenu();
     }
 
     public static void firstMenu() throws SQLException {
         if (user != null)
-            System.out.println("\nYou are Signed In as " + user.getUsername());
-        System.out.println("Sign in press 1");
-        System.out.println("Sign up press 2");
-        System.out.println("See the Published Articles press 3");
-        System.out.println("Sign out press 4");
-        System.out.println("Exit Program press 5");
+            System.out.println("\n******* You are Signed In as " + user.getUsername()+" *******" +
+                    "");
+        else
+            System.out.println("*****************************************");
+        System.out.println("Press 1 --> Sign In");
+        System.out.println("Press 2 --> Sign Up as a new user");
+        System.out.println("Press 3 --> See the Published Articles");
+        System.out.println("Press 4 --> Sign Out");
+        System.out.println("Press 5 --> Exit Program");
+        System.out.println("*****************************************");
 
         int nextStep = Integer.parseInt(scanner.nextLine());
         switch (nextStep) {
@@ -54,18 +58,24 @@ public class Main {
                 firstMenu();
                 break;
             default:
+                System.out.println("Are you sure you want to Exit? yes/no");
+                if (scanner.nextLine().equals("no") )
+                    firstMenu();
+                else
+                    System.out.println("Hope to see you soon ;)");
                 break;
         }
     }
 
     public static void secondMenu() throws SQLException {
-        System.out.println("\nYou are Signed In as " + user.getUsername());
-        System.out.println("See all your Articles press 1");
-        System.out.println("Edit your Articles press 2");
-        System.out.println("Add a New Article press 3");
-        System.out.println("Change Password press 4");
-        System.out.println("Previous Menu press 5");
-        System.out.println("Exit Program press 6");
+        System.out.println("\n******* You are Signed In as " + user.getUsername()+" *******");
+        System.out.println("Press 1 --> See All your Articles");
+        System.out.println("Press 2 --> Edit your Articles");
+        System.out.println("Press 3 --> Add a New Article");
+        System.out.println("Press 4 --> Change Password");
+        System.out.println("Press 5 --> Previous Menu");
+        System.out.println("Press 6 --> Exit Program");
+        System.out.println("*****************************************");
 
         int nextStep = Integer.parseInt(scanner.nextLine());
         switch (nextStep) {
@@ -94,6 +104,7 @@ public class Main {
     }
 
     public static void addNewArticle() throws SQLException {
+        System.out.println("******** Adding New Article ********");
         System.out.print("Enter Article Title: ");
         String title = scanner.nextLine();
 
@@ -120,21 +131,24 @@ public class Main {
         int articleID = articleRepository.addNewArticle(article);
         article.setId(articleID);
         System.out.println("Article ID " + article.getId() + " Successfully added to the data base");
+        System.out.println("*****************************************");
     }
 
     public static void editArticleByUserID() throws SQLException {
+        System.out.println("******** Editing Article ********");
         System.out.println("Enter the Article ID to edit ");
         int articleID = Integer.parseInt(scanner.nextLine());
         Article article = articleRepository.seeArticleByID(articleID);
         if (article != null && article.getUserID() == user.getId()) {
+            String name = userRepository.FindUserByID(article.getUserID());
             System.out.println(article.getId() + " " + article.getTitle());
-            System.out.println("  Author: " + article.getUserID() + " Date: " + article.getCreateDate());
+            System.out.println("  Author: " + name + " Date: " + article.getCreateDate());
             System.out.println("  Summery: " + article.getBrief());
             System.out.println("  Content: " + article.getContent());
 
-            System.out.println("Edit Title press '1' ");
-            System.out.println("Edit Create Date press '2' ");
-            System.out.println("Edit Publish status press '3' ");
+            System.out.println("Press 1 --> Edit Title");
+            System.out.println("Press 2 --> Edit Create Date");
+            System.out.println("Press 3 --> Edit Publish Status");
 
             int editVal = Integer.parseInt(scanner.nextLine());
             switch (editVal) {
@@ -160,55 +174,68 @@ public class Main {
             }
         } else
             System.out.println("Incorrect Article ID");
+        System.out.println("*****************************************");
     }
 
     public static void seeArticleByUserID() throws SQLException {
+        System.out.println("******** All of Your Articles ********");
         List<Article> currentUserArticleList = new ArrayList<>();
         currentUserArticleList = articleRepository.articlesByUserID(user.getId());
         if (currentUserArticleList.size() == 0)
-            System.out.println("You haven't published an Article yet");
+            System.out.println("You haven't published any Articles yet");
         for (Article article : currentUserArticleList) {
+            System.out.println("-----------------------------------------");
             System.out.println("Article ID " + article.getId());
             System.out.println("  Title: " + article.getTitle());
             System.out.println("  Summery: " + article.getBrief());
-            System.out.println();
+            System.out.println("-----------------------------------------");
         }
+        System.out.println("*****************************************");
     }
 
     public static void signOut() {
         user = null;
+        System.out.println("******** Sign Out ********");
         System.out.println("Successfully signed out");
+        System.out.println("*****************************************");
     }
 
     public static void seeArticleByID() throws SQLException {
+        System.out.println("******** View Article ********");
         System.out.println("Enter Article ID to see the Content: ");
         int ID = Integer.parseInt(scanner.nextLine());
         Article article = articleRepository.seeArticleByID(ID);
         if (article != null && article.isPublished()) {
+            String name = userRepository.FindUserByID(article.getUserID());
             System.out.println(article.getId() + " " + article.getTitle());
-            System.out.println("  Author: " + article.getUserID() + " Date: " + article.getCreateDate());
+            System.out.println("  Author: " + name + " Date: " + article.getCreateDate());
             System.out.println("  Summery: " + article.getBrief());
             System.out.println("  Content: " + article.getContent());
         } else
             System.out.println("Incorrect Article ID");
+        System.out.println("*****************************************");
     }
 
     public static void seePublishedArticles() throws SQLException {
+        System.out.println("******** Published Articles ********");
         List<Article> articleList = new ArrayList<>();
         articleList = articleRepository.allArticles();
         if (articleList.size() == 0)
             System.out.println("There is no Articles yet");
         for (Article article : articleList) {
             if (article.isPublished()) {
+                System.out.println("-----------------------------------------------");
                 System.out.println("Article ID " + article.getId());
                 System.out.println("  Title: " + article.getTitle());
                 System.out.println("  Summery: " + article.getBrief());
-                System.out.println();
+                System.out.println("-----------------------------------------------");
             }
         }
+        System.out.println("*****************************************");
     }
 
     public static boolean changePassword() throws SQLException {
+        System.out.println("******** Change Password ********");
         System.out.println("Enter your current Password...");
         String oldPass = scanner.nextLine();
         if (userRepository.checkPassword(user.getId(), oldPass)) {
@@ -217,16 +244,20 @@ public class Main {
             if (userRepository.changePassword(user.getId(), newPass)) {
                 user.setPassword(newPass);
                 System.out.println("Password changed successfully!");
+                System.out.println("*****************************************");
                 return true;
             }
             System.out.println("An error occurred, please try later");
+            System.out.println("*****************************************");
             return false;
         }
         System.out.println("Wrong Password");
+        System.out.println("*****************************************");
         return false;
     }
 
     public static boolean signUp() throws SQLException {
+        System.out.println("************ Sign Up ************");
         if (user == null) {
             System.out.println("Enter Username: ");
             String username = scanner.next();
@@ -238,17 +269,21 @@ public class Main {
             user = userRepository.userSignUp(username, nationalCode, birthday);
             if (user != null) {
                 System.out.println("Sign up complete");
-                System.out.println("Dear " + user.getUsername() + " Your Password is your National Code, You can change it after you Sign in again");
+                System.out.println("Dear " + user.getUsername() + " Your Password is your National Code, You can change it in the following Menu");
+                System.out.println("*****************************************");
                 return true;
             }
             System.out.println("This Username already exists");
+            System.out.println("*****************************************");
             return false;
         }
         System.out.println("You are already Signed in, Want to Sign Up as another User? Sign Out first");
+        System.out.println("*****************************************");
         return false;
     }
 
     public static boolean signIn() throws SQLException {
+        System.out.println("************ Sign In ************");
         if (user == null) {
             System.out.println("Enter Username: ");
             String username = scanner.next();
@@ -258,13 +293,16 @@ public class Main {
             user = userRepository.userSignIn(username, password);
             if (user != null) {
                 System.out.println("You have been successfully signed in!");
+                System.out.println("*****************************************");
                 return true;
             }
-            System.out.println("...Sign in Failed...");
+            System.out.println("........Sign in Failed.......");
             System.out.println("Your Username/Password is incorrect");
+            System.out.println("*****************************************");
             return false;
         }
         System.out.println("You are already Signed in, Want to Sign in as another User? Sign Out first");
+        System.out.println("*****************************************");
         return false;
     }
 }

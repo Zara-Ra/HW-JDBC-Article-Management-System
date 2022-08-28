@@ -10,6 +10,14 @@ import java.sql.SQLException;
 
 
 public class UserRepository {
+    public String FindUserByID(int ID) throws SQLException {
+        String sql = "SELECT username FROM usertable WHERE id = ?";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1, ID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return resultSet.getString(1);
+    }
     public boolean checkPassword(int id, String password) throws SQLException {
         String sql = "SELECT COUNT(*) FROM usertable WHERE id = ? AND password = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
