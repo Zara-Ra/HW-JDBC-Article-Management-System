@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleRepository {
-    public void allArticles(List<Article> articleList) throws SQLException {
+    public List<Article> allArticles() throws SQLException {
         String sql = "SELECT * From article";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
+        List <Article> articleList = new ArrayList<>();
         while (resultSet.next()) {
             Article article = new Article(resultSet.getInt(1),
                     resultSet.getString(2),
@@ -26,6 +27,7 @@ public class ArticleRepository {
                     resultSet.getInt(7));
             articleList.add(article);
         }
+        return articleList;
     }
 
     public Article seeArticleByID(int ID) throws SQLException {
@@ -46,11 +48,12 @@ public class ArticleRepository {
         return null;
     }
 
-    public void articlesByUserID(int userID, List<Article> articleList) throws SQLException {
+    public List<Article> articlesByUserID(int userID) throws SQLException {
         String sql = "SELECT * From article WHERE userid = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1, userID);
         ResultSet resultSet = preparedStatement.executeQuery();
+        List<Article> articleList = new ArrayList<>();
         while (resultSet.next()) {
             Article article = new Article(resultSet.getInt(1),
                     resultSet.getString(2),
@@ -61,6 +64,7 @@ public class ArticleRepository {
                     resultSet.getInt(7));
             articleList.add(article);
         }
+        return articleList;
     }
 
     public void editTitle(int articleID, String newTitle) throws SQLException {

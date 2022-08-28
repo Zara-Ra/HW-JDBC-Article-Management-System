@@ -15,8 +15,6 @@ public class Main {
     private static UserRepository userRepository = new UserRepository();
     private static ArticleRepository articleRepository = new ArticleRepository();
     private static User user;
-    private static List<Article> articleList = new ArrayList<>();
-    private static List<Article> currentUserArticleList = new ArrayList<>();
 
     public static void main(String[] args) throws SQLException {
         signIn();
@@ -106,7 +104,8 @@ public class Main {
             System.out.println("Incorrect Article ID");
     }
     public static void seeArticleByUserID() throws SQLException {
-        articleRepository.articlesByUserID(user.getId(), currentUserArticleList);
+        List<Article> currentUserArticleList = new ArrayList<>();
+        currentUserArticleList = articleRepository.articlesByUserID(user.getId());
         if (currentUserArticleList.size() == 0)
             System.out.println("You haven't published an Article yet");
         for (int i = 0; i < currentUserArticleList.size(); i++) {
@@ -136,7 +135,8 @@ public class Main {
     }
 
     public static void seePublishedArticles() throws SQLException {
-        articleRepository.allArticles(articleList);
+        List <Article> articleList = new ArrayList<>();
+        articleList = articleRepository.allArticles();
         if (articleList.size() == 0)
             System.out.println("There is no Articles yet");
         for (int i = 0; i < articleList.size(); i++) {
