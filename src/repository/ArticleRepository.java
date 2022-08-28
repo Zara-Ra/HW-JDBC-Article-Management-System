@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ArticleRepository {
     public void allArticles(List<Article> articleList) throws SQLException {
-        //return List<String concat title, brief>
         String sql = "SELECT * From article";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -28,8 +27,22 @@ public class ArticleRepository {
         }
     }
 
-    public void seeArticlesByID() {
-        //return Article
+    public Article seeArticleByID(int ID) throws SQLException {
+        String sql = "SELECT * From article WHERE id = ?";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(1,ID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()){
+            Article article = new Article(resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getDate(5),
+                    resultSet.getBoolean(6),
+                    resultSet.getInt(7));
+            return article;
+        }
+        return null;
     }
 
     public void seeMyBriefArticles(int userID, int articleID) {

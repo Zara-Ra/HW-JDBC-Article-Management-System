@@ -22,6 +22,20 @@ public class Main {
         //signUp();
         //changePassword();
         seePublishedArticles();
+        System.out.println("Enter Article ID to see the Content: ");
+        seeArticleByID();
+    }
+    public static void seeArticleByID() throws SQLException{
+        int ID = scanner.nextInt();
+        Article article = articleRepository.seeArticleByID(ID);
+        if(article != null && article.isPublished() == true){
+            System.out.println(article.getId()+" "+article.getTitle());
+            System.out.println("  Author: "+ article.getUserID() + " Date: "+article.getCreateDate());
+            System.out.println("  Summery: "+article.getBreif());
+            System.out.println("  Content: "+article.getContent());
+        }
+        else
+            System.out.println("Incorrect Article ID");
     }
     public static void seePublishedArticles() throws SQLException {
         articleRepository.allArticles(articleList);
@@ -29,8 +43,12 @@ public class Main {
             System.out.println("There is no Articles yet");
         for (int i = 0; i < articleList.size(); i++) {
             Article article = articleList.get(i);
-            if(article.isPublished())
-                System.out.println(article.getId()+" "+article.getTitle()+ " "+article.getBreif());
+            if(article.isPublished()) {
+                System.out.println("Article ID " + article.getId());
+                System.out.println("  Title: " + article.getTitle());
+                System.out.println("  Summery: " + article.getBreif());
+                System.out.println();
+            }
         }
     }
     public static boolean changePassword() throws SQLException {
