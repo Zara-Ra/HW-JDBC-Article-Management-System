@@ -28,8 +28,50 @@ public class Main {
         */
         //exit();
         seeArticleByUserID();
+        editArticleByUserID();
     }
 
+    public static void editArticleByUserID() throws SQLException {
+        System.out.println("Enter the Article ID to edit ");
+        int articleID = scanner.nextInt();
+        Article article = articleRepository.seeArticleByID(articleID);
+        if (article != null && article.getUserID() == user.getId()) {
+            System.out.println(article.getId() + " " + article.getTitle());
+            System.out.println("  Author: " + article.getUserID() + " Date: " + article.getCreateDate());
+            System.out.println("  Summery: " + article.getBreif());
+            System.out.println("  Content: " + article.getContent());
+
+            System.out.println("Edit Title press '1' ");
+            System.out.println("Edit Create Date press '2' ");
+            System.out.println("Edit Publish status press '3' ");
+
+            int editVal = scanner.nextInt();
+            switch (editVal){
+                case 1:
+                    System.out.println("Enter the new Title:");
+                    scanner.nextLine();
+                    String newTitle = scanner.nextLine();
+                    articleRepository.editTitle(article.getId(),newTitle);
+                    break;
+                case 2:
+                    System.out.println("Enter the Create Date(format 1999-01-31 ");
+                    Date newDate = Date.valueOf(scanner.next());
+                    articleRepository.editCreateDate(article.getId(),newDate);
+                    break;
+                case 3:
+                    System.out.println("press 1 to Publish the article,press 0 to Unpublish the article ");
+                    boolean ispublished = false;
+                    if(scanner.nextInt() == 1)
+                        ispublished = true;
+                    articleRepository.editPublishStatus(article.getId(),ispublished);
+                    break;
+                default:
+                    System.out.println("nothing edited");
+            }
+        }
+        else
+            System.out.println("Incorrect Article ID");
+    }
     public static void seeArticleByUserID() throws SQLException {
         articleRepository.articlesByUserID(user.getId(), currentUserArticleList);
         if (currentUserArticleList.size() == 0)

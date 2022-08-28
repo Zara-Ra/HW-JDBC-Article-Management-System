@@ -49,7 +49,7 @@ public class ArticleRepository {
     public void articlesByUserID(int userID, List<Article> articleList) throws SQLException {
         String sql = "SELECT * From article WHERE userid = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
-        preparedStatement.setInt(1,userID);
+        preparedStatement.setInt(1, userID);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             Article article = new Article(resultSet.getInt(1),
@@ -63,16 +63,32 @@ public class ArticleRepository {
         }
     }
 
-    public void ediArticleByUserID() {
-        //editArticleByUserID
-        //edit info
-        //publish or unpublish
+    public void editTitle(int articleID, String newTitle) throws SQLException {
+        String sql = "UPDATE article SET title = ? WHERE id = ? ";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(2, articleID);
+        preparedStatement.setString(1, newTitle);
+        preparedStatement.executeUpdate();
+    }
+
+    public void editCreateDate(int articleID, Date newDate) throws SQLException {
+        String sql = "UPDATE article SET createdate = ? WHERE id = ? ";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(2, articleID);
+        preparedStatement.setDate(1, newDate);
+        preparedStatement.executeUpdate();
+    }
+
+    public void editPublishStatus(int articleID,boolean isPublish) throws SQLException {
+        String sql = "UPDATE article SET ispublished = ? WHERE id = ? ";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setInt(2, articleID);
+        preparedStatement.setBoolean(1, isPublish);
+        preparedStatement.executeUpdate();
     }
 
     public void addNewArticleByUserID(String title, String brief, String content, Date date, int userID) {
         //return boolean
     }
 
-    public void publishMyArticle() {
-    }
 }
