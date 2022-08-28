@@ -56,7 +56,11 @@ public class UserRepository {
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            User newUser = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getDate(4), resultSet.getString(5));
+            User newUser = new User(resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDate(4),
+                    resultSet.getString(5));
             return newUser;
         }
         return null;
