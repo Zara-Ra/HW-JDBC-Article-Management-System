@@ -3,30 +3,35 @@ package repository;
 import entity.User;
 import util.ApplicationConstant;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class UserRepository {
-    public boolean checkPassword(int id,String password) throws SQLException {
+    public boolean checkPassword(int id, String password) throws SQLException {
         String sql = "SELECT COUNT(*) FROM usertable WHERE id = ? AND password = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1, id);
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        if(resultSet.getInt(1) == 1)
+        if (resultSet.getInt(1) == 1)
             return true;
         return false;
     }
-    public boolean changePassword(int id,String password) throws SQLException {
+
+    public boolean changePassword(int id, String password) throws SQLException {
         String sql = "UPDATE usertable SET password = ? WHERE id = ? ";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(2, id);
         preparedStatement.setString(1, password);
-        if( preparedStatement.executeUpdate() == 1)
+        if (preparedStatement.executeUpdate() == 1)
             return true;
         return false;
     }
+
     public User userSignUp(String username, String nationalCode, Date birthday) throws SQLException {
         String sql = "INSERT INTO usertable (username,nationalcode,birthday,password) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
@@ -42,8 +47,7 @@ public class UserRepository {
         prepared.setString(2, nationalCode);
         ResultSet resultSet = prepared.executeQuery();
         if (resultSet.next()) {
-            User newUser = new User(resultSet.getInt(1), username, nationalCode, birthday, nationalCode);
-            return newUser;
+            return new User(resultSet.getInt(1), username, nationalCode, birthday, nationalCode);
         }
         return null;
     }
@@ -56,23 +60,12 @@ public class UserRepository {
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            User newUser = new User(resultSet.getInt(1),
+            return new User(resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getDate(4),
                     resultSet.getString(5));
-            return newUser;
         }
         return null;
-    }
-    public void test() throws SQLException {
-        String readQuery = "SELECT *  FROM usertable";
-        PreparedStatement statement = ApplicationConstant.getConnection().prepareStatement(readQuery);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            int person_id = resultSet.getInt(1);
-            System.out.println(person_id);
-        }
-
     }
 }

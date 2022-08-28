@@ -6,26 +6,25 @@ import java.sql.Date;
 public class Article {
     private int id;
     private String title;
-    private String breif;
+    private String brief;
     private String content;
     private Date createDate;
     private boolean isPublished;
     private int userID;
 
-    public Article(int id, String title, String breif, String content, Date createDate, boolean isPublished, int userID) {
+    public Article(int id, String title, String brief, String content, Date createDate, boolean isPublished, int userID) {
         this.id = id;
         this.title = title;
-        this.breif = breif;
+        this.brief = brief;
         this.content = content;
         this.createDate = createDate;
         this.isPublished = isPublished;
         this.userID = userID;
     }
 
-    public Article(String title, String breif, String content, Date createDate, boolean isPublished, int userID) {
-        this.id = id;
+    public Article(String title, String brief, String content, Date createDate, boolean isPublished, int userID) {
         this.title = title;
-        this.breif = breif;
+        this.brief = brief;
         this.content = content;
         this.createDate = createDate;
         this.isPublished = isPublished;
@@ -40,8 +39,8 @@ public class Article {
         return title;
     }
 
-    public String getBreif() {
-        return breif;
+    public String getBrief() {
+        return brief;
     }
 
     public String getContent() {
@@ -68,8 +67,8 @@ public class Article {
         this.title = title;
     }
 
-    public void setBreif(String breif) {
-        this.breif = breif;
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 
     public void setContent(String content) {
@@ -83,12 +82,13 @@ public class Article {
     public void setPublished(boolean published) {
         isPublished = published;
     }
+
     @Override
     public String toString() {
         return "Article{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", breif='" + breif + '\'' +
+                ", brief='" + brief + '\'' +
                 ", content='" + content + '\'' +
                 ", createDate=" + createDate +
                 ", isPublished=" + isPublished +

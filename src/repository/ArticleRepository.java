@@ -16,7 +16,7 @@ public class ArticleRepository {
         String sql = "SELECT * From article";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
-        List <Article> articleList = new ArrayList<>();
+        List<Article> articleList = new ArrayList<>();
         while (resultSet.next()) {
             Article article = new Article(resultSet.getInt(1),
                     resultSet.getString(2),
@@ -36,14 +36,14 @@ public class ArticleRepository {
         preparedStatement.setInt(1, ID);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            Article article = new Article(resultSet.getInt(1),
+            return new Article(resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getDate(5),
                     resultSet.getBoolean(6),
                     resultSet.getInt(7));
-            return article;
+
         }
         return null;
     }
@@ -83,7 +83,7 @@ public class ArticleRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void editPublishStatus(int articleID,boolean isPublish) throws SQLException {
+    public void editPublishStatus(int articleID, boolean isPublish) throws SQLException {
         String sql = "UPDATE article SET ispublished = ? WHERE id = ? ";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(2, articleID);
@@ -95,7 +95,7 @@ public class ArticleRepository {
         String sql = "INSERT INTO article (title, brief, content,createdate,ispublished,userid) VALUES (?,?,?,?,?,?)";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setString(1, article.getTitle());
-        preparedStatement.setString(2, article.getBreif());
+        preparedStatement.setString(2, article.getBrief());
         preparedStatement.setString(3, article.getContent());
         preparedStatement.setDate(4, article.getCreateDate());
         preparedStatement.setBoolean(5, article.isPublished());
