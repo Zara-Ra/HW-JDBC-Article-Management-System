@@ -22,6 +22,16 @@ public class Article {
         this.userID = userID;
     }
 
+    public Article(String title, String breif, String content, Date createDate, boolean isPublished, int userID) {
+        this.id = id;
+        this.title = title;
+        this.breif = breif;
+        this.content = content;
+        this.createDate = createDate;
+        this.isPublished = isPublished;
+        this.userID = userID;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,6 +58,10 @@ public class Article {
 
     public int getUserID() {
         return userID;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {

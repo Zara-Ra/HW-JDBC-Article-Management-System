@@ -28,9 +28,42 @@ public class Main {
         */
         //exit();
         seeArticleByUserID();
-        editArticleByUserID();
+        //editArticleByUserID();
+        addNewArticle();
+        //seeArticleByUserID();
     }
 
+    public static void addNewArticle() throws SQLException {
+        System.out.print("Enter Article Title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("Enter Brief: ");
+        String brief = scanner.nextLine();
+
+        System.out.print("Enter Content:(Enter Quit when done) ");
+        String QuitChecker = scanner.nextLine();
+        String content = "";
+        while (!QuitChecker.equals("Quit")){
+            content = content.concat(QuitChecker);
+            QuitChecker = scanner.nextLine();
+        }
+
+        System.out.print("Enter Create Date(Format 2011-02-31) ");
+        Date createDate = Date.valueOf(scanner.next());
+        scanner.nextLine();
+
+        System.out.println("Would you like to Publish your Article yes/no?");
+        String answerYesNo = scanner.nextLine();
+        boolean isPublished = false;
+        if(answerYesNo.equals("yes"))
+            isPublished = true;
+
+        Article article = new Article(title,brief,content,createDate,isPublished,user.getId());
+        int articleID = articleRepository.addNewArticle(article);
+        article.setId(articleID);
+        //articleList.add(article);
+        //currentUserArticleList.add(article);
+    }
     public static void editArticleByUserID() throws SQLException {
         System.out.println("Enter the Article ID to edit ");
         int articleID = scanner.nextInt();
@@ -142,6 +175,7 @@ public class Main {
         String nationalCode = scanner.next();
         System.out.println("Enter Birthday in this format 2015-03-31: ");
         Date birhtday = Date.valueOf(scanner.next());
+        scanner.nextLine();
         user = userRepository.userSignUp(username, nationalCode, birhtday);
         if (user != null) {
             System.out.println("Sign up complete");
@@ -157,6 +191,7 @@ public class Main {
         String username = scanner.next();
         System.out.println("Enter Password: ");
         String password = scanner.next();
+        scanner.nextLine();
         user = userRepository.userSignIn(username, password);
         if (user != null) {
             System.out.println("You have been successfully signed in!");

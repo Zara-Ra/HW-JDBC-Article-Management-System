@@ -87,8 +87,25 @@ public class ArticleRepository {
         preparedStatement.executeUpdate();
     }
 
-    public void addNewArticleByUserID(String title, String brief, String content, Date date, int userID) {
-        //return boolean
-    }
+    public int addNewArticle(Article article) throws SQLException {
+        String sql = "INSERT INTO article (title, brief, content,createdate,ispublished,userid) VALUES (?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        preparedStatement.setString(1, article.getTitle());
+        preparedStatement.setString(2, article.getBreif());
+        preparedStatement.setString(3, article.getContent());
+        preparedStatement.setDate(4, article.getCreateDate());
+        preparedStatement.setBoolean(5, article.isPublished());
+        preparedStatement.setInt(6, article.getUserID());
+        preparedStatement.executeUpdate();
 
+        String sqlForID = "SELECT id FROM article WHERE title = ? AND userid = ?";
+        PreparedStatement prepared = ApplicationConstant.getConnection().prepareStatement(sqlForID);
+        prepared.setString(1, article.getTitle());
+        prepared.setInt(2, article.getUserID());
+        ResultSet resultSet = prepared.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        return 0;
+    }
 }
