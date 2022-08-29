@@ -16,6 +16,10 @@ public class Main {
     private static ArticleRepository articleRepository = new ArticleRepository();
     private static User user;
 
+    enum MenuOption {
+        ONE, TWO, THREE, FOUR, FIVE, SIX;
+    }
+
     public static void main(String[] args) throws SQLException {
         System.out.println("\n******* Welcome to Article Viewer *******");
         firstMenu();
@@ -23,7 +27,7 @@ public class Main {
 
     public static void firstMenu() throws SQLException {
         if (user != null)
-            System.out.println("\n******* You are Signed In as " + user.getUsername()+" *******" +
+            System.out.println("\n******* You are Signed In as " + user.getUsername() + " *******" +
                     "");
         else
             System.out.println("*****************************************");
@@ -34,32 +38,33 @@ public class Main {
         System.out.println("Press 5 --> Exit Program");
         System.out.println("*****************************************");
 
-        int nextStep = Integer.parseInt(scanner.nextLine());
+        int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
+        MenuOption nextStep = MenuOption.values()[ordinal];
         switch (nextStep) {
-            case 1:
+            case ONE:
                 if (signIn())
                     secondMenu();
                 else
                     firstMenu();
                 break;
-            case 2:
+            case TWO:
                 if (signUp())
                     secondMenu();
                 else
                     firstMenu();
                 break;
-            case 3:
+            case THREE:
                 seePublishedArticles();
                 seeArticleByID();
                 firstMenu();
                 break;
-            case 4:
+            case FOUR:
                 signOut();
                 firstMenu();
                 break;
             default:
                 System.out.println("Are you sure you want to Exit? yes/no");
-                if (scanner.nextLine().equals("no") )
+                if (scanner.nextLine().equals("no"))
                     firstMenu();
                 else
                     System.out.println("Hope to see you soon ;)");
@@ -68,7 +73,7 @@ public class Main {
     }
 
     public static void secondMenu() throws SQLException {
-        System.out.println("\n******* You are Signed In as " + user.getUsername()+" *******");
+        System.out.println("\n******* You are Signed In as " + user.getUsername() + " *******");
         System.out.println("Press 1 --> See All your Articles");
         System.out.println("Press 2 --> Edit your Articles");
         System.out.println("Press 3 --> Add a New Article");
@@ -77,34 +82,35 @@ public class Main {
         System.out.println("Press 6 --> Exit Program");
         System.out.println("*****************************************");
 
-        int nextStep = Integer.parseInt(scanner.nextLine());
+        int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
+        MenuOption nextStep = MenuOption.values()[ordinal];
+
         switch (nextStep) {
-            case 1:
+            case ONE:
                 seeArticleByUserID();
                 secondMenu();
                 break;
-            case 2:
+            case TWO:
                 editArticleByUserID();
                 secondMenu();
                 break;
-            case 3:
+            case THREE:
                 addNewArticle();
                 secondMenu();
                 break;
-            case 4:
+            case FOUR:
                 changePassword();
                 secondMenu();
                 break;
-            case 5:
+            case FIVE:
                 firstMenu();
                 break;
-            case 6:
+            case SIX:
                 System.out.println("Are you sure you want to Exit? yes/no");
-                if (scanner.nextLine().equals("no") )
+                if (scanner.nextLine().equals("no"))
                     firstMenu();
                 else
                     System.out.println("Hope to see you soon ;)");
-
                 break;
         }
     }
@@ -156,21 +162,23 @@ public class Main {
             System.out.println("Press 2 --> Edit Create Date");
             System.out.println("Press 3 --> Edit Publish Status");
 
-            int editVal = Integer.parseInt(scanner.nextLine());
+            int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
+            MenuOption editVal = MenuOption.values()[ordinal];
+
             switch (editVal) {
-                case 1 -> {
-                    System.out.println("Enter the new Title:");
+                case ONE -> {
+                    System.out.println("Enter the new Title: ");
                     String newTitle = scanner.nextLine();
                     articleRepository.editTitle(article.getId(), newTitle);
                     System.out.println("Title edited successfully");
                 }
-                case 2 -> {
+                case TWO -> {
                     System.out.println("Enter the Create Date(format 1999-01-31 ");
                     Date newDate = Date.valueOf(scanner.nextLine());
                     articleRepository.editCreateDate(article.getId(), newDate);
                     System.out.println("Create Date edited successfully");
                 }
-                case 3 -> {
+                case THREE -> {
                     System.out.println("press 1 to Publish the article,press 0 to Unpublish the article ");
                     boolean isPublished = Integer.parseInt(scanner.nextLine()) == 1;
                     articleRepository.editPublishStatus(article.getId(), isPublished);
