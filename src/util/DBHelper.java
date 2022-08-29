@@ -18,4 +18,11 @@ public class DBHelper {
         }
         return connection;
     }
+    public void closeConnection(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

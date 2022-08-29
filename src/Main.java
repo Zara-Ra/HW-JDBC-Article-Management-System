@@ -16,8 +16,17 @@ public class Main {
     private static ArticleRepository articleRepository = new ArticleRepository();
     private static User user;
 
-    enum MenuOption {
-        ONE, TWO, THREE, FOUR, FIVE, SIX;
+    enum FirstMenuOption {
+        SIGNIN, SIGNUP, ARTICLES, SIGNOUT, EXIT;
+
+    }
+
+    enum SecondMenuOption {
+        SEEARTICLE, EDITARTICLE, NEWARTICLE, PASSWORD, FIRSTMENU, EXIT;
+    }
+
+    enum EditMenuOption {
+        TITLE, CREATEDATE, PUBLISH;
     }
 
     public static void main(String[] args) throws SQLException {
@@ -38,36 +47,40 @@ public class Main {
         System.out.println("Press 5 --> Exit Program");
         System.out.println("*****************************************");
 
-        int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
-        MenuOption nextStep = MenuOption.values()[ordinal];
+        int value = Integer.parseInt(scanner.nextLine()) - 1;
+        FirstMenuOption nextStep = FirstMenuOption.values()[value];
         switch (nextStep) {
-            case ONE:
+            case SIGNIN:
                 if (signIn())
                     secondMenu();
                 else
                     firstMenu();
                 break;
-            case TWO:
+            case SIGNUP:
                 if (signUp())
                     secondMenu();
                 else
                     firstMenu();
                 break;
-            case THREE:
+            case ARTICLES:
                 seePublishedArticles();
                 seeArticleByID();
                 firstMenu();
                 break;
-            case FOUR:
+            case SIGNOUT:
                 signOut();
                 firstMenu();
                 break;
-            default:
+            case EXIT:
                 System.out.println("Are you sure you want to Exit? yes/no");
                 if (scanner.nextLine().equals("no"))
                     firstMenu();
                 else
                     System.out.println("Hope to see you soon ;)");
+                ApplicationConstant.closeConnection();
+                break;
+            default:
+                ApplicationConstant.closeConnection();
                 break;
         }
     }
@@ -82,35 +95,40 @@ public class Main {
         System.out.println("Press 6 --> Exit Program");
         System.out.println("*****************************************");
 
-        int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
-        MenuOption nextStep = MenuOption.values()[ordinal];
+        int value = Integer.parseInt(scanner.nextLine()) - 1;
+        SecondMenuOption nextStep = SecondMenuOption.values()[value];
 
         switch (nextStep) {
-            case ONE:
+            case SEEARTICLE:
                 seeArticleByUserID();
                 secondMenu();
                 break;
-            case TWO:
+            case EDITARTICLE:
                 editArticleByUserID();
                 secondMenu();
                 break;
-            case THREE:
+            case NEWARTICLE:
                 addNewArticle();
                 secondMenu();
                 break;
-            case FOUR:
+            case PASSWORD:
                 changePassword();
                 secondMenu();
                 break;
-            case FIVE:
+            case FIRSTMENU:
                 firstMenu();
                 break;
-            case SIX:
+            case EXIT:
                 System.out.println("Are you sure you want to Exit? yes/no");
                 if (scanner.nextLine().equals("no"))
                     firstMenu();
-                else
+                else {
                     System.out.println("Hope to see you soon ;)");
+                    ApplicationConstant.closeConnection();
+                }
+                break;
+            default:
+                ApplicationConstant.closeConnection();
                 break;
         }
     }
@@ -162,23 +180,23 @@ public class Main {
             System.out.println("Press 2 --> Edit Create Date");
             System.out.println("Press 3 --> Edit Publish Status");
 
-            int ordinal = Integer.parseInt(scanner.nextLine()) - 1;
-            MenuOption editVal = MenuOption.values()[ordinal];
+            int value = Integer.parseInt(scanner.nextLine()) - 1;
+            EditMenuOption editVal = EditMenuOption.values()[value];
 
             switch (editVal) {
-                case ONE -> {
+                case TITLE -> {
                     System.out.println("Enter the new Title: ");
                     String newTitle = scanner.nextLine();
                     articleRepository.editTitle(article.getId(), newTitle);
                     System.out.println("Title edited successfully");
                 }
-                case TWO -> {
+                case CREATEDATE -> {
                     System.out.println("Enter the Create Date(format 1999-01-31 ");
                     Date newDate = Date.valueOf(scanner.nextLine());
                     articleRepository.editCreateDate(article.getId(), newDate);
                     System.out.println("Create Date edited successfully");
                 }
-                case THREE -> {
+                case PUBLISH -> {
                     System.out.println("press 1 to Publish the article,press 0 to Unpublish the article ");
                     boolean isPublished = Integer.parseInt(scanner.nextLine()) == 1;
                     articleRepository.editPublishStatus(article.getId(), isPublished);
