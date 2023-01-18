@@ -36,8 +36,7 @@ public class Main {
 
     public static void firstMenu() throws SQLException {
         if (user != null)
-            System.out.println("\n******* You are Signed In as " + user.getUsername() + " *******" +
-                    "");
+            System.out.println("\n******* You are Signed In as " + user.getUsername() + " *******");
         else
             System.out.println("*****************************************");
         System.out.println("Press 1 --> Sign In");
